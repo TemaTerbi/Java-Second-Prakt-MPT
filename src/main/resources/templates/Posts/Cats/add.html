@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add</title>
+  <link rel="stylesheet"  href="/style.css"/>
+</head>
+<body>
+<div class="formWrapper">
+  <form method="post" action="/cats/add">
+    <input id="1"  name="breed" type="text" placeholder="Порода">
+    <input id="2" name="color" type="text" placeholder="Цвет">
+    <input id="3" name="colorOfEys" type="text" placeholder="Цвет глаз">
+    <input id="4" name="weight" type="number" placeholder="Вес">
+    <input id="5" name="height" type="number" placeholder="Рост">
+    <div class="action-wrapper">
+      <input type="submit" value="Добавить">
+    </div>
+  </form>
+</div>
+<div class="footerNewsAction">
+  <a href="/cats/" class="back">Назад</a>
+</div>
+</body>
+</html>

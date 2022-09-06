@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index posts</title>
+    <link rel="stylesheet"  href="/style.css"/>
+</head>
+<body>
+<form method="get" action="/posts/search">
+    <input type="search" name="title" placeholder="Поиск">
+    <input type="submit" value="Найти">
+</form>
+<div th:each="el : ${posts}" class="cardContainer">
+    <h2 th:text="${el.title}"></h2>
+    <h3 th:text="${el.phone}"></h3>
+    <p th:text="${el.description}"></p>
+    <p th:text="${el.place}"></p>
+    <div class="cardAction">
+        <p th:text="'Просмотров: '+ ${el.views}"></p>
+    </div>
+</div>
+<div class="footerNewsAction">
+    <a href="/posts/add" class="btn">Создать новость</a>
+    <a href="/cats/" class="btn">Котики</a>
+</div>
+</body>
+</html>

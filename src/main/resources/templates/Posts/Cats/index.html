@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Index posts</title>
+  <link rel="stylesheet"  href="/style.css"/>
+</head>
+<body>
+<form method="get" action="/cats/search">
+  <input type="search" name="title" placeholder="Поиск">
+  <input type="submit" value="Найти">
+</form>
+<div th:each="el : ${cats}" class="cardContainer">
+  <h2 th:text="${el.breed}"></h2>
+  <h3 th:text="${el.color}"></h3>
+  <p th:text="${el.colorOfEys}"></p>
+  <div class="cardAction">
+    <p th:text="'Вес: '+ ${el.weight}"></p>
+    <p th:text="'рост: '+ ${el.height}"></p>
+  </div>
+</div>
+<div class="footerNewsAction">
+  <a href="/cats/add" class="btn">Создать котика</a>
+  <a href="/posts/" class="back">Объявления</a>
+</div>
+</body>
+</html>

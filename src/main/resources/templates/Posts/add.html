@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add</title>
+  <link rel="stylesheet"  href="/style.css"/>
+</head>
+<body>
+<div class="formWrapper">
+  <form method="post" action="/posts/add">
+    <input id="1"  name="title" type="text" placeholder="Заголовок">
+    <input id="2" name="description" type="text" placeholder="Описание">
+    <input id="3" name="place" type="text" placeholder="место">
+    <input id="4" name="views" type="number" placeholder="Просмотров">
+    <input id="5" name="phone" type="number" placeholder="Номер телефона">
+    <div class="action-wrapper">
+      <input type="submit" value="Добавить">
+    </div>
+  </form>
+</div>
+<div class="footerNewsAction">
+  <a href="/posts/" class="back">Назад</a>
+</div>
+</body>
+</html>
