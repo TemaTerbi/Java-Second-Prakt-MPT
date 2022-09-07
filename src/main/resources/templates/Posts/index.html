@@ -15,6 +15,7 @@
     <h3 th:text="${el.phone}"></h3>
     <p th:text="${el.description}"></p>
     <p th:text="${el.place}"></p>
+    <a th:href="'/posts/' + ${el.id}">Прочитать пост</a>
     <div class="cardAction">
         <p th:text="'Просмотров: '+ ${el.views}"></p>
     </div>
