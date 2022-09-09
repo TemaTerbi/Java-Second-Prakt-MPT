@@ -7,12 +7,17 @@
 </head>
 <body>
 <div class="formWrapper">
-  <form method="post" action="/posts/add">
+  <form th:object="${posts}" method="post" action="/posts/add">
     <input id="1"  name="title" type="text" placeholder="Заголовок">
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div><br>
     <input id="2" name="description" type="text" placeholder="Описание">
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div><br>
     <input id="3" name="place" type="text" placeholder="место">
+    <div th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></div><br>
     <input id="4" name="views" type="number" placeholder="Просмотров">
+    <div th:if="${#fields.hasErrors('views')}" th:errors="*{views}"></div><br>
     <input id="5" name="phone" type="number" placeholder="Номер телефона">
+    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div><br>
     <div class="action-wrapper">
       <input type="submit" value="Добавить">
     </div>

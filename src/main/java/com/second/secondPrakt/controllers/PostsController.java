@@ -1,12 +1,15 @@
 package com.second.secondPrakt.controllers;
 
+import com.second.secondPrakt.models.Cats;
 import com.second.secondPrakt.models.Posts;
 import com.second.secondPrakt.posts.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,25 +25,38 @@ public class PostsController {
     {
         Iterable<Posts> posts = postsRepository.findAll();
         model.addAttribute("posts", posts);
-        return "posts/index";
+        return "Posts/index";
     }
 
     @GetMapping("/add")
     public String addView(Model model)
     {
+        model.addAttribute("posts", new Posts());
         return "Posts/add";
     }
 
+//    @PostMapping("/add")
+//    public String addPost(@RequestParam("title") String title,
+//                          @RequestParam("phone") String phone,
+//                          @RequestParam("description") String description,
+//                          @RequestParam("place") String place,
+//                          @RequestParam("views") Integer views,
+//                          Model model)
+//    {
+//        Posts postOne = new Posts(title, phone, description, place, views);
+//        postsRepository.save(postOne);
+//        return "redirect:/posts/";
+//    }
+
     @PostMapping("/add")
-    public String addPost(@RequestParam("title") String title,
-                          @RequestParam("phone") String phone,
-                          @RequestParam("description") String description,
-                          @RequestParam("place") String place,
-                          @RequestParam("views") Integer views,
+    public String addPost(@ModelAttribute("posts") @Valid Posts posts,
+                          BindingResult bindingResult,
                           Model model)
     {
-        Posts postOne = new Posts(title, phone, description, place, views);
-        postsRepository.save(postOne);
+        if(bindingResult.hasFieldErrors())
+            return  "Posts/add";
+
+        postsRepository.save(posts);
         return "redirect:/posts/";
     }
 
@@ -79,25 +95,25 @@ public class PostsController {
         ArrayList<Posts> arrayList = new ArrayList<>();
         Optional<Posts> posts = postsRepository.findById(id);
         posts.ifPresent(arrayList::add);
-        model.addAttribute("posts", arrayList);
+        model.addAttribute("posts", arrayList.get(0));
         return "Posts/edit-posts";
     }
 
     @PostMapping("/edit/{id}")
     public  String edit_post(@PathVariable("id") Long id, Model model,
-    @RequestParam("title") String title,
-    @RequestParam("phone") String phone,
-    @RequestParam("description") String description,
-    @RequestParam("place") String place,
-    @RequestParam("views") Integer views)
+                             @ModelAttribute("posts") @Valid Posts posts,
+                             BindingResult bindingResul)
     {
-        Posts posts = postsRepository.findById(id).orElseThrow();
+        if(!postsRepository.existsById(id))
+        {
+            return "redirect:/posts/";
+        }
+        if(bindingResul.hasErrors())
+        {
+            return "Posts/edit-posts";
+        }
 
-        posts.setTitle(title);
-        posts.setPhone(phone);
-        posts.setDescription(description);
-        posts.setPlace(place);
-        posts.setViews(views);
+        posts.setId(id);
         postsRepository.save(posts);
         return "redirect:/posts/";
     }

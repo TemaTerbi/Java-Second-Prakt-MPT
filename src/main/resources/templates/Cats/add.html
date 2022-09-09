@@ -7,12 +7,17 @@
 </head>
 <body>
 <div class="formWrapper">
-  <form method="post" action="/cats/add">
+  <form th:object="${cats}" method="post" action="/cats/add">
     <input id="1"  name="breed" type="text" placeholder="Порода">
+    <div th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}"></div><br>
     <input id="2" name="color" type="text" placeholder="Цвет">
+    <div th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div><br>
     <input id="3" name="colorOfEys" type="text" placeholder="Цвет глаз">
+    <div th:if="${#fields.hasErrors('colorOfEys')}" th:errors="*{colorOfEys}"></div><br>
     <input id="4" name="weight" type="number" placeholder="Вес">
+    <div th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></div><br>
     <input id="5" name="height" type="number" placeholder="Рост">
+    <div th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></div><br>
     <div class="action-wrapper">
       <input type="submit" value="Добавить">
     </div>

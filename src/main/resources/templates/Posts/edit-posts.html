@@ -6,7 +6,7 @@
   <link rel="stylesheet"  href="/style.css"/>
 </head>
 <body>
-<form method="get" action="/posts/search">
+<form  method="get" action="/posts/search">
   <input type="search" name="title" placeholder="Поиск">
   <input type="submit" value="Найти">
 </form>
@@ -22,12 +22,17 @@
 <div class="footerNewsAction">
   <a href="/posts/" class="back">Назад</a>
 </div>
-<form method="post" th:action="'/posts/edit/' + ${el.id}">
-  <input id="1"  name="title" type="text" th:value="${el.title}" placeholder="Заголовок">
-  <input id="2" name="description" type="text" th:value="${el.description}" placeholder="Описание">
-  <input id="3" name="place" type="text" th:value="${el.place}" placeholder="место">
-  <input id="4" name="views" type="number" th:value="${el.views}" placeholder="Просмотров">
-  <input id="5" name="phone" type="number" th:value="${el.phone}" placeholder="Номер телефона">
+<form th:object="${posts}" method="post" th:action="'/posts/edit/' + ${el.id}">
+  <input id="1"  name="title" type="text" th:value="${el.title}" th:field="*{title}" placeholder="Заголовок">
+  <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div><br>
+  <input id="2" name="description" type="text" th:value="${el.description}" th:field="*{description}" placeholder="Описание">
+  <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div><br>
+  <input id="3" name="place" type="text" th:value="${el.place}" th:field="*{place}" placeholder="место">
+  <div th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></div><br>
+  <input id="4" name="views" type="number" th:value="${el.views}" th:field="*{views}" placeholder="Просмотров">
+  <div th:if="${#fields.hasErrors('views')}" th:errors="*{views}"></div><br>
+  <input id="5" name="phone" type="number" th:value="${el.phone}" th:field="*{phone}" placeholder="Номер телефона">
+  <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div><br>
   <div class="action-wrapper">
     <input type="submit" value="Изменить">
   </div>

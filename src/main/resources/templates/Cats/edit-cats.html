@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Info posts</title>
+  <link rel="stylesheet"  href="/style.css"/>
+</head>
+<body>
+<form method="get" action="/cats/search">
+  <input type="search" name="title" placeholder="Поиск">
+  <input type="submit" value="Найти">
+</form>
+<div th:each="el : ${cats}" class="cardContainer">
+  <h2 th:text="${el.breed}"></h2>
+  <h3 th:text="${el.color}"></h3>
+  <p th:text="${el.colorOfEys}"></p>
+  <div class="cardAction">
+    <p th:text="'Просмотров: '+ ${el.weight}"></p>
+    <p th:text="'Просмотров: '+ ${el.height}"></p>
+    <a th:href="'/cats/delete/' + ${el.id}" class="back">Удалить</a>
+  </div>
+  <div class="footerNewsAction">
+    <a href="/cats/" class="back">Назад</a>
+  </div>
+  <form th:object="${cats}" method="post" th:action="'/cats/edit/' + ${el.id}">
+    <input id="1"  name="breed" th:value="${el.breed}" type="text" th:field="*{breed}" placeholder="Порода">
+    <div th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}"></div><br>
+    <input id="2" name="color" th:value="${el.color}" type="text" th:field="*{color}" placeholder="Цвет">
+    <div th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div><br>
+    <input id="3" name="colorOfEys" th:value="${el.colorOfEys}" type="text" th:field="*{colorOfEys}" placeholder="Цвет глаз">
+    <div th:if="${#fields.hasErrors('colorOfEys')}" th:errors="*{colorOfEys}"></div><br>
+    <input id="4" name="weight" th:value="${el.weight}" type="number" th:field="*{weight}" placeholder="Вес">
+    <div th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></div><br>
+    <input id="5" name="height" th:value="${el.height}" type="number" th:field="*{height}" placeholder="Рост">
+    <div th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></div><br>
+    <div class="action-wrapper">
+      <input type="submit" value="Изменить">
+    </div>
+  </form>
+</div>
+</body>
+</html>

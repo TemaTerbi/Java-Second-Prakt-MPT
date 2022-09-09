@@ -6,6 +6,7 @@ import javax.annotation.processing.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.*;
 
 
 @Entity
@@ -13,7 +14,14 @@ public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше 5", min = 5, max = 100)
     String title, phone, description, place;
+
+    @Min(message = "Впишите число не меньше 1", value = 1)
+    @Max(message = "Число не может быть больше 100", value = 100)
+    @NotNull(message = "Пожалуйста, укажите просмотры")
     Integer views;
 
     public Long getId() {

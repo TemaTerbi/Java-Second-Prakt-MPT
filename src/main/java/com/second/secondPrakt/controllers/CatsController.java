@@ -6,8 +6,10 @@ import com.second.secondPrakt.posts.CatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,25 +25,38 @@ public class CatsController {
     {
         Iterable<Cats> cats = catsRepository.findAll();
         model.addAttribute("cats", cats);
-        return "Posts/Cats/index";
+        return "Cats/index";
     }
 
     @GetMapping("/add")
     public String addView(Model model)
     {
-        return "Posts/Cats/add";
+        model.addAttribute("cats", new Cats());
+        return "Cats/add";
     }
 
+//    @PostMapping("/add")
+//    public String addPost(@RequestParam("breed") String breed,
+//                          @RequestParam("color") String color,
+//                          @RequestParam("colorOfEys") String colorOfEys,
+//                          @RequestParam("weight") Double weight,
+//                          @RequestParam("height") Double height,
+//                          Model model)
+//    {
+//        Cats catsOne = new Cats(breed, color, colorOfEys, weight, height);
+//        catsRepository.save(catsOne);
+//        return "redirect:/cats/";
+//    }
+
     @PostMapping("/add")
-    public String addPost(@RequestParam("breed") String breed,
-                          @RequestParam("color") String color,
-                          @RequestParam("colorOfEys") String colorOfEys,
-                          @RequestParam("weight") Double weight,
-                          @RequestParam("height") Double height,
+    public String addPost(@ModelAttribute("cats") @Valid Cats posts,
+                          BindingResult bindingResult,
                           Model model)
     {
-        Cats catsOne = new Cats(breed, color, colorOfEys, weight, height);
-        catsRepository.save(catsOne);
+        if(bindingResult.hasFieldErrors())
+            return  "Cats/add";
+
+        catsRepository.save(posts);
         return "redirect:/cats/";
     }
 
@@ -50,7 +65,7 @@ public class CatsController {
     {
         List<Cats> catsList = catsRepository.findByBreedContains(title);
         model.addAttribute("cats", catsList);
-        return "Posts/Cats/index";
+        return "Cats/index";
     }
 
     @GetMapping("/{id}")
@@ -60,7 +75,7 @@ public class CatsController {
         Optional<Cats> posts = catsRepository.findById(id);
         posts.ifPresent(arrayList::add);
         model.addAttribute("cats", arrayList);
-        return "Posts/Cats/info-cats";
+        return "Cats/info-cats";
     }
 
     @GetMapping("/delete/{id}")
@@ -80,25 +95,45 @@ public class CatsController {
         ArrayList<Cats> arrayList = new ArrayList<>();
         Optional<Cats> posts = catsRepository.findById(id);
         posts.ifPresent(arrayList::add);
-        model.addAttribute("cats", arrayList);
-        return "Posts/Cats/edit-cats";
+        model.addAttribute("cats", arrayList.get(0));
+        return "/Cats/edit-cats";
     }
+
+//    @PostMapping("/edit/{id}")
+//    public  String edit_post(@PathVariable("id") Long id, Model model,
+//                             @RequestParam("breed") String breed,
+//                             @RequestParam("color") String color,
+//                             @RequestParam("colorOfEys") String colorOfEys,
+//                             @RequestParam("weight") Double weight,
+//                             @RequestParam("height") Double height)
+//    {
+//        Cats cats = catsRepository.findById(id).orElseThrow();
+//
+//        cats.setBreed(breed);
+//        cats.setColor(color);
+//        cats.setColorOfEys(colorOfEys);
+//        cats.setWeight(weight);
+//        cats.setHeight(height);
+//        catsRepository.save(cats);
+//        return "redirect:/cats/";
+//    }
 
     @PostMapping("/edit/{id}")
     public  String edit_post(@PathVariable("id") Long id, Model model,
-                             @RequestParam("breed") String breed,
-                             @RequestParam("color") String color,
-                             @RequestParam("colorOfEys") String colorOfEys,
-                             @RequestParam("weight") Double weight,
-                             @RequestParam("height") Double height)
+                             @ModelAttribute("cats") @Valid Cats cats,
+                             BindingResult bindingResul
+                             )
     {
-        Cats cats = catsRepository.findById(id).orElseThrow();
+        if(!catsRepository.existsById(id))
+        {
+            return "redirect:/cats/";
+        }
+        if(bindingResul.hasErrors())
+        {
+            return "/Cats/edit-cats";
+        }
 
-        cats.setBreed(breed);
-        cats.setColor(color);
-        cats.setColorOfEys(colorOfEys);
-        cats.setWeight(weight);
-        cats.setHeight(height);
+        cats.setId(id);
         catsRepository.save(cats);
         return "redirect:/cats/";
     }

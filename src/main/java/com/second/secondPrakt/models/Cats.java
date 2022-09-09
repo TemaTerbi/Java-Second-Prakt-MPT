@@ -4,14 +4,35 @@ import javax.annotation.processing.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.*;
 
 @Entity
 public class Cats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String breed, color, colorOfEys;
-    Double weight, height;
+
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше 5", min = 5, max = 100)
+    String breed;
+
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше 5", min = 5, max = 100)
+    String color;
+
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше 5", min = 5, max = 100)
+    String colorOfEys;
+
+    @Min(message = "Впишите число не меньше 1", value = 1)
+    @Max(message = "Число не может быть больше 100", value = 100)
+    @NotNull(message = "Пожалуйста, укажите вес и рост")
+    Double weight;
+
+    @Min(message = "Впишите число не меньше 1", value = 1)
+    @Max(message = "Число не может быть больше 100", value = 100)
+    @NotNull(message = "Пожалуйста, укажите вес и рост")
+    Double height;
 
     public Long getId() {
         return id;
