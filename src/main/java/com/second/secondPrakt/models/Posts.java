@@ -1,15 +1,13 @@
 package com.second.secondPrakt.models;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import javax.annotation.processing.Generated;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.validation.constraints.*;
 
 
 @Entity
+@Table(name = "posts")
 public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +21,10 @@ public class Posts {
     @Max(message = "Число не может быть больше 100", value = 100)
     @NotNull(message = "Пожалуйста, укажите просмотры")
     Integer views;
+
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name="cats_id")
+    private Cats cats;
 
     public Long getId() {
         return id;
@@ -72,12 +74,18 @@ public class Posts {
         this.views = views;
     }
 
-    public Posts(String title, String phone, String description, String place, Integer views) {
+    public Posts(String title, String phone, String description, String place, Integer views, Cats cats) {
         this.title = title;
         this.phone = phone;
         this.description = description;
         this.place = place;
         this.views = views;
+        this.cats = cats;
+    }
+
+    public Posts(String title, Cats cats) {
+        this.title = title;
+        this.cats = cats;
     }
 
     public Posts() {

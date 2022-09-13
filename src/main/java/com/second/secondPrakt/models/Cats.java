@@ -1,12 +1,10 @@
 package com.second.secondPrakt.models;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.annotation.processing.Generated;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.validation.constraints.*;
 
 @Entity
+@Table(name = "cats")
 public class Cats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +31,9 @@ public class Cats {
     @Max(message = "Число не может быть больше 100", value = 100)
     @NotNull(message = "Пожалуйста, укажите вес и рост")
     Double height;
+
+    @OneToOne(optional = false, mappedBy = "cats")
+    private Posts posts;
 
     public Long getId() {
         return id;

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление нового поста</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"  href="/style.css"/>
+</head>
+<body>
+<form th:action="${'/one/add/'}" method="post">
+    <input type="text" name="number" placeholder="Введите номер бота">
+    <select  name="name">
+        <div th:each="element : ${bots}">
+            <option th:text="${element.name}" th:value="${element.name}"></option>
+        </div>
+    </select>
+    <br>
+    <button type="submit">Добавить бота</button>
+</form>
+</body>
+</html>

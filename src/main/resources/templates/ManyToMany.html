@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Добавление нового студента</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet"  href="/style.css"/>
+</head>
+<body>
+<form th:action="${'/many/add/'}" method="post">
+  <select  name="student">
+    <div th:each="element : ${actor}">
+      <option th:text="${element.name}"></option>
+    </div>
+  </select>
+  <select  name="universiti">
+    <div th:each="element : ${theater}">
+      <option th:text="${element.number}"></option>
+    </div>
+  </select>
+  <br>
+  <button type="submit">Добавить человека</button>
+</form>
+</body>
+</html>
