@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
-//@PreAuthorize("hasAnyAuthority('ADMIN')") //Доступ для админов
+@PreAuthorize("hasAnyAuthority('ADMIN')") //Доступ для админов
 public class UserController {
 
     @Autowired
