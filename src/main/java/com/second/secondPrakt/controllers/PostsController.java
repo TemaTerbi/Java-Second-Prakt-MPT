@@ -4,6 +4,7 @@ import com.second.secondPrakt.models.Cats;
 import com.second.secondPrakt.models.Posts;
 import com.second.secondPrakt.posts.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/posts")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
 public class PostsController {
     @Autowired
     private PostsRepository postsRepository;
